@@ -7,8 +7,8 @@ export class OrderController {
     this.orderService = new OrderService();
   }
 
-  async importOrder(importOrderDraft: OrderImportDraft): Promise<Response> {
-    const order = await this.orderService.importOrder(importOrderDraft);
+  async importOrder(importOrderDraft: OrderImportDraft, SubscriptionID: string, PlanID: string): Promise<Response> {
+    const order = await this.orderService.importOrder(importOrderDraft, SubscriptionID, PlanID);
     return new Response(JSON.stringify(order), {
       status: 200,
       headers: { "Content-Type": "application/json" },

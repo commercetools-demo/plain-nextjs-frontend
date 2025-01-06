@@ -26,7 +26,7 @@ export default function NewOrdrerPage() {
         console.log(data);
     }
 
-    const handleValidation = (values: OrderImportDraft) => {
+    const handleValidation = (values: OrderImportDraft & { SubscriptionID: string; PlanID: string }) => {
         const errors: any = {};
         if (!values.orderNumber) {
             errors.orderNumber = 'Required';
@@ -36,6 +36,12 @@ export default function NewOrdrerPage() {
         }
         if (!values.customerEmail) {
             errors.customerEmail = 'Required';
+        }
+        if (!values.SubscriptionID) {
+            errors.SubscriptionID = 'Required';
+        }
+        if (!values.PlanID) {
+            errors.PlanID = 'Required';
         }
         if (typeof values.totalPrice.centAmount === 'undefined') {
             errors.totalPrice = {
@@ -56,8 +62,11 @@ export default function NewOrdrerPage() {
                     currencyCode: 'USD',
                     centAmount: 0,
                     fractionDigits: 2
-                }
-            } as OrderImportDraft}
+                },
+                SubscriptionID: '',
+                PlanID: ''
+                
+            } as OrderImportDraft & { SubscriptionID: string; PlanID: string }}
                 validate={handleValidation}
                 onSubmit={handleOrderSubmit}>
                 {({ values, errors, handleChange, handleSubmit }) => (
@@ -66,6 +75,8 @@ export default function NewOrdrerPage() {
                         <Input error={errors.customerId} label="Customer Id" type="text" name="customerId" value={values.customerId} onChange={handleChange} />
                         <Input error={errors.customerEmail} label="Customer Email" type="text" name="customerEmail" value={values.customerEmail} onChange={handleChange} />
                         <Input error={errors.totalPrice?.centAmount} label="Total price centAmount" type="number" name="totalPrice.centAmount" value={values.totalPrice.centAmount} onChange={handleChange} />
+                        <Input error={errors.SubscriptionID} label="Subscription ID" type="text" name="SubscriptionID" value={values.SubscriptionID} onChange={handleChange} />
+                        <Input error={errors.PlanID} label="Plan ID" type="text" name="PlanID" value={values.PlanID} onChange={handleChange} />
                         <Button type="submit" loading={isLoading}>Submit</Button>
                     </Form>
                 )}
