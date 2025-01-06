@@ -1,7 +1,7 @@
 import React, { HTMLAttributes } from 'react'
 
 type Props = HTMLAttributes<HTMLInputElement> & {
-    type?: 'text' | 'password' | 'email' | 'number';
+    type?: 'text' | 'password' | 'email' | 'number' | 'date';
     name: string;
     value: any;
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void

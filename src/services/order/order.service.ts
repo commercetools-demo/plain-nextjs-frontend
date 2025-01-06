@@ -1,7 +1,9 @@
 import { commercetoolsClient } from "../commercetools/client";
 import { Order, OrderImportDraft } from "@commercetools/platform-sdk";
+import { SubsciptionOrder } from "./order.types";
 export class OrderService {
-  async importOrder(orderImport: OrderImportDraft, SubscriptionID: string, PlanID: string): Promise<Order> {
+  async importOrder(orderImport: OrderImportDraft, additionalData: SubsciptionOrder): Promise<Order> {
+  
     
     const response = await commercetoolsClient
       .orders()
@@ -18,10 +20,7 @@ export class OrderService {
             },
             quantity: 1,
             price: {
-              value: {
-                centAmount: orderImport.totalPrice.centAmount,
-                currencyCode: "USD"
-              }
+              value: orderImport.totalPrice
             }
           }
         ],
@@ -31,16 +30,18 @@ export class OrderService {
             key: "subscription-order"
           },
           fields: {
-            "SubscriptionID": SubscriptionID,
-            "PlanID": PlanID,
-            StartDate: new Date().toISOString(),
-            EndDate: new Date(new Date().setFullYear(new Date().getFullYear() + 1)).toISOString(),
-            RenewalDate: new Date(new Date().setMonth(new Date().getMonth() + 11)).toISOString(),
-
+            "SubscriptionID": additionalData.subscriptionID,
+            "PlanID": additionalData.planID,
+            StartDate: additionalData.startDate,
+            EndDate: additionalData.endDate,
+            RenewalDate: additionalData.renewalDate
           }
         }
       } as OrderImportDraft })
-      .execute();
+      .execute().catch((error) => {
+        console.error(error.body);
+        throw error;
+      });
 
     return response.body;
   }

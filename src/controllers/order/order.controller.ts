@@ -1,4 +1,5 @@
 import { OrderService } from "@/services/order/order.service";
+import { SubsciptionOrder } from "@/services/order/order.types";
 import { OrderImportDraft } from "@commercetools/platform-sdk";
 
 export class OrderController {
@@ -7,8 +8,8 @@ export class OrderController {
     this.orderService = new OrderService();
   }
 
-  async importOrder(importOrderDraft: OrderImportDraft, SubscriptionID: string, PlanID: string): Promise<Response> {
-    const order = await this.orderService.importOrder(importOrderDraft, SubscriptionID, PlanID);
+  async importOrder(importOrderDraft: OrderImportDraft, additionalData: SubsciptionOrder): Promise<Response> {
+    const order = await this.orderService.importOrder(importOrderDraft, additionalData);
     return new Response(JSON.stringify(order), {
       status: 200,
       headers: { "Content-Type": "application/json" },
