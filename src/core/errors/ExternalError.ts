@@ -1,7 +1,7 @@
 import { ExtensionError, ExtensionErrorProperties } from './Errors';
 
 export interface ExternalErrorProperties extends ExtensionErrorProperties {
-  body?: string;
+  body?: string | any;
 }
 
 export class ExternalError extends ExtensionError {
@@ -13,7 +13,7 @@ export class ExternalError extends ExtensionError {
 
   constructor(props: ExternalErrorProperties) {
     super(props);
-    this.statusCode = isNaN(props.statusCode) ? 503 : props.statusCode;
+    this.statusCode = !props.statusCode || isNaN(props.statusCode) ? 503 : props.statusCode;
     this.errorName = ExternalError.EXTERNAL_ERROR_NAME;
 
     if (props.body?.['errors']?.[0]?.['code'] === 'AssociateMissingPermission') {

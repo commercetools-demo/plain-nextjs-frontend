@@ -15,9 +15,9 @@ export abstract class ExtensionError extends Error {
   statusCode?: number;
 
   protected constructor({ message, errors, statusCode }: ExtensionErrorProperties) {
-    super(message || errors[0]?.message);
+    super(message || errors?.[0]?.message);
 
     this.errors = errors || [{ message }];
-    this.statusCode = isNaN(statusCode) ? 503 : statusCode;
+    this.statusCode = !statusCode || isNaN(statusCode) ? 503 : statusCode;
   }
 }

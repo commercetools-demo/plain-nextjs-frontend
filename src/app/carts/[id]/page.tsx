@@ -1,6 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 import { Card, CardHeader, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 
@@ -16,12 +16,9 @@ interface CartDetails {
   // Add other cart detail properties
 }
 
-export default function CartDetailsPage({ 
-  params 
-}: { 
-  params: { id: string } 
-}) {
+export default function CartDetailsPage() {
   const router = useRouter();
+  const params = useParams();
   const [cart, setCart] = useState<CartDetails | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -75,7 +72,6 @@ export default function CartDetailsPage({
         <h1 className="text-2xl font-bold">Cart Details</h1>
         <Button
           onClick={() => router.push('/carts')}
-          variant="outline"
         >
           Back to Carts
         </Button>
