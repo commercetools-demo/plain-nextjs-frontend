@@ -18,10 +18,7 @@ export class OrderService {
             },
             quantity: 1,
             price: {
-              value: {
-                centAmount: orderImport.totalPrice.centAmount,
-                currencyCode: "USD"
-              }
+              value: orderImport.totalPrice
             }
           }
         ]

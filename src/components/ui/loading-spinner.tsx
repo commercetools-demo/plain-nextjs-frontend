@@ -1,13 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const LoadingSpinner = styled.div`
-  border: 16px solid #f3f3f3; /* Light grey */
-  border-top: 16px solid #3498db; /* Blue */
+const LoadingSpinner = styled.span`
+  display: inline-block;
+  border: 2px solid #f3f3f3; /* Light grey */
+  border-top: 2px solid #3498db; /* Blue */
   border-radius: 50%;
-  width: 120px;
-  height: 120px;
+  width: 14px;
+  height: 14px;
   animation: spin 2s linear infinite;
+  margin: 0 5px;
 
   @keyframes spin {
     0% { transform: rotate(0deg); }
