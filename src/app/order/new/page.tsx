@@ -1,20 +1,24 @@
 'use client';
 import { Button } from '@/components/ui/button';
 import Form from '@/components/ui/form';
+import Header from '@/components/ui/header';
 import Input from '@/components/ui/input';
 import { OrderImportDraft } from '@commercetools/platform-sdk'
 import { Formik } from 'formik'
-import React from 'react'
+import React, { useState } from 'react'
 
 
 export default function NewOrdrerPage() {
 
+    const [isLoading, setIsLoading] = useState(false);
+
     const handleOrderSubmit = async (values: OrderImportDraft) => {
-        console.log(values)
+        setIsLoading(true);
         const response = await fetch(`/api/order-import`, {
             body: JSON.stringify(values),
             method: 'POST'
         });
+        setIsLoading(false);
         if (!response.ok) {
             throw new Error('Failed to fetch cart details');
         }
@@ -42,7 +46,8 @@ export default function NewOrdrerPage() {
     }
 
     return (
-        <div className='w-1/3'>
+        <div className='w-1/3 p-4'>
+            <Header backUrl="/" title="New Order" className='mb-4' />
             <Formik initialValues={{
                 orderNumber: '',
                 customerId: '',
@@ -61,7 +66,7 @@ export default function NewOrdrerPage() {
                         <Input error={errors.customerId} label="Customer Id" type="text" name="customerId" value={values.customerId} onChange={handleChange} />
                         <Input error={errors.customerEmail} label="Customer Email" type="text" name="customerEmail" value={values.customerEmail} onChange={handleChange} />
                         <Input error={errors.totalPrice?.centAmount} label="Total price centAmount" type="number" name="totalPrice.centAmount" value={values.totalPrice.centAmount} onChange={handleChange} />
-                        <Button type="submit">Submit</Button>
+                        <Button type="submit" loading={isLoading}>Submit</Button>
                     </Form>
                 )}
             </Formik>
