@@ -3,7 +3,8 @@ import { Button } from '@/components/ui/button';
 import Form from '@/components/ui/form';
 import Header from '@/components/ui/header';
 import Input from '@/components/ui/input';
-import { OrderImportDraft } from '@commercetools/platform-sdk'
+import PriceInput from '@/components/ui/price-input';
+import { Money, OrderImportDraft } from '@commercetools/platform-sdk'
 import { Formik } from 'formik'
 import React, { useState } from 'react'
 
@@ -74,7 +75,12 @@ export default function NewOrdrerPage() {
                         <Input error={errors.orderNumber} label="Order Number" type="text" name="orderNumber" value={values.orderNumber} onChange={handleChange} />
                         <Input error={errors.customerId} label="Customer Id" type="text" name="customerId" value={values.customerId} onChange={handleChange} />
                         <Input error={errors.customerEmail} label="Customer Email" type="text" name="customerEmail" value={values.customerEmail} onChange={handleChange} />
-                        <Input error={errors.totalPrice?.centAmount} label="Total price centAmount" type="number" name="totalPrice.centAmount" value={values.totalPrice.centAmount} onChange={handleChange} />
+                        <PriceInput
+                            label="Total Price"
+                            name="totalPrice"
+                            value={values.totalPrice as Money}
+                            handleChange={handleChange}
+                        />
                         <Input error={errors.SubscriptionID} label="Subscription ID" type="text" name="SubscriptionID" value={values.SubscriptionID} onChange={handleChange} />
                         <Input error={errors.PlanID} label="Plan ID" type="text" name="PlanID" value={values.PlanID} onChange={handleChange} />
                         <Button type="submit" loading={isLoading}>Submit</Button>
